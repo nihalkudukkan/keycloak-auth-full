@@ -1,0 +1,27 @@
+docker run -p 9000:8080 -e KC_DB=mysql -e KC_DB_URL=jdbc:mysql://host.docker.internal:3306/keycloak_db -e KC_DB_USERNAME=root -e KC_DB_PASSWORD=admin -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin --name keycloak quay.io/keycloak/keycloak:26.0.7 start-dev
+
+create learn realm
+create user= keycloak keycloak
+localhost:9000/realm/learn/account
+
+create client
+turn on OIDC-> standard flow, direct access grants, service account roles
+Root URL=''
+Home URL=http://localhost:3000
+Valid redirect URIs=http://localhost:3000/auth/callback
+Valid post logout redirect URIs=http://localhost:3000
+Web origins=http://localhost:3000
+
+http://localhost:9000/realms/learn/.well-known/openid-configuration
+
+http://localhost:9000/realms/learn/protocol/openid-connect/auth?client_id=react-client&redirect_uri=http://localhost:3000/auth/callback&response_type=code&scope=openid%20email%20profile
+
+http://localhost:3000/auth/callback?session_state=b1e374ba-e8d3-4ce5-a41e-a299ee9ee7e7&iss=http%3A%2F%2Flocalhost%3A9000%2Frealms%2Flearn&code=39981f0f-3fb6-422e-841b-c43cef7b4222.b1e374ba-e8d3-4ce5-a41e-a299ee9ee7e7.81cc7c96-effe-4d1f-8d1c-325b37da166a
+
+curl --location 'http://localhost:9000/realms/learn/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=react-client' \
+--data-urlencode 'client_secret=0obfUJcIjPfkuHxDDS6fS88GN7g4doVK' \
+--data-urlencode 'code=9aef2ffe-3939-47de-b979-dc0548cf8936.19f17ac1-97bd-4de0-8eca-d62bc6f75a63.81cc7c96-effe-4d1f-8d1c-325b37da166a' \
+--data-urlencode 'redirect_uri=http://localhost:3000/auth/callback' \
+--data-urlencode 'grant_type=authorization_code'
