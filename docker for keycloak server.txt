@@ -14,7 +14,7 @@ Web origins=http://localhost:3000
 
 http://localhost:9000/realms/learn/.well-known/openid-configuration
 
-http://localhost:9000/realms/learn/protocol/openid-connect/auth?client_id=react-client&redirect_uri=http://localhost:3000/auth/callback&response_type=code&scope=openid%20email%20profile
+http://localhost:9000/realms/learn/protocol/openid-connect/auth?client_id=react-client&redirect_uri=http://localhost:5173/auth/callback&response_type=code&scope=openid%20email%20profile
 
 http://localhost:3000/auth/callback?session_state=b1e374ba-e8d3-4ce5-a41e-a299ee9ee7e7&iss=http%3A%2F%2Flocalhost%3A9000%2Frealms%2Flearn&code=39981f0f-3fb6-422e-841b-c43cef7b4222.b1e374ba-e8d3-4ce5-a41e-a299ee9ee7e7.81cc7c96-effe-4d1f-8d1c-325b37da166a
 
@@ -25,3 +25,50 @@ curl --location 'http://localhost:9000/realms/learn/protocol/openid-connect/toke
 --data-urlencode 'code=9aef2ffe-3939-47de-b979-dc0548cf8936.19f17ac1-97bd-4de0-8eca-d62bc6f75a63.81cc7c96-effe-4d1f-8d1c-325b37da166a' \
 --data-urlencode 'redirect_uri=http://localhost:3000/auth/callback' \
 --data-urlencode 'grant_type=authorization_code'
+
+----
+
+PKCE
+
+turn off client authentication = means make it public
+
+Generated Code Verifier: DpytLNwadIHdQ0Ruitqma1lwvudAI_EYLe7X1oUWXSieZtjNmFGPLpzTHdIwWqMS
+Code challenge: yXDctZsrZy-xt0pCJd_hFc_KucokODVh2WP4uL0OIfU
+
+http://localhost:9000/realms/learn/protocol/openid-connect/auth?
+response_type=code
+&client_id=react-client
+&redirect_uri=http://localhost:5173/auth/callback
+&scope=openid email profile
+&state=qYNpf0WNgla7Teky
+&code_challenge=yXDctZsrZy-xt0pCJd_hFc_KucokODVh2WP4uL0OIfU
+&code_challenge_method=S256
+
+http://localhost:5173/auth/callback?state=qYNpf0WNgla7Teky&session_state=1bcb4e63-68f0-43e6-82ef-c1d8db23ec44&iss=http%3A%2F%2Flocalhost%3A9000%2Frealms%2Flearn
+&code=cb3da052-169c-4672-99f0-d5e9aaa3d732.1bcb4e63-68f0-43e6-82ef-c1d8db23ec44.81cc7c96-effe-4d1f-8d1c-325b37da166a
+
+curl --location 'http://localhost:9000/realms/learn/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=authorization_code' \
+--data-urlencode 'client_id=react-client' \
+--data-urlencode 'redirect_uri=http://localhost:5173/auth/callback' \
+--data-urlencode 'code=e08ed447-dff7-4fe5-b284-dd41df6fbbf2.1bcb4e63-68f0-43e6-82ef-c1d8db23ec44.81cc7c96-effe-4d1f-8d1c-325b37da166a' \
+--data-urlencode 'code_verifier=DpytLNwadIHdQ0Ruitqma1lwvudAI_EYLe7X1oUWXSieZtjNmFGPLpzTHdIwWqMS'
+
+---
+
+Client credentials
+
+Turn on client authentication = confidential access type
+
+curl --location 'http://localhost:9000/realms/learn/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=react-client' \
+--data-urlencode 'client_secret=R7Hthu2XMULF2HOMSXQ65YCE7GTzfk2O' \
+--data-urlencode 'grant_type=client_credentials'
+
+---
+
+
+
+

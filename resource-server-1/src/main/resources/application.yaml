@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: resource-server-1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9000/realms/learn
+      client:
+        registration:
+          keycloak-client:
+            provider: keycloak
+            client-id: spring-client
+            client-secret: nC94vFTWWuo9G4w0Q4HeWPMtQd1RoNyi
+            authorization-grant-type: client_credentials
+            scope: openid
+        provider:
+          keycloak:
+            token-uri: http://localhost:9000/realms/learn/protocol/openid-connect/token
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          keycloak-client:
+#            provider: keycloak
+#            client-id: spring-client
+#            client-secret: nC94vFTWWuo9G4w0Q4HeWPMtQd1RoNyi
+#            authorization-grant-type: client_credentials
+#            scope: openid
+#        provider:
+#          keycloak:
+#            token-uri: http://localhost:9000/realms/learn/protocol/openid-connect/token
+#            # Optionally also set issuer-uri if needed:
+#            # issuer-uri: http://localhost:8080/realms/myrealm
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:9000/realms/learn
+##          jwk-set-uri: http://localhost:8080/realms/myrealm/protocol/openid-connect/certs
+
